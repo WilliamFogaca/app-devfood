@@ -1,0 +1,72 @@
+@import 'variables';
+
+.adicionar-receita {
+  margin: 40px 0;
+  .form-area {
+    display: flex;
+    justify-content: center;
+    form {
+      background-color: #fff;
+      padding: 50px 100px;
+      width: 75%;
+      .input-area {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+        label {
+          color: $general-orange;
+          font-size: 22px;
+          font-weight: 700;
+          margin-bottom: 15px;
+        }
+        input, select, textarea {
+          background-color: $form-input-bg;
+          border-radius: 25px;
+          border: none;
+        }
+        input, select {
+          height: 50px;
+        }
+        input, textarea {
+          width: 100%;
+        }
+        input {
+          padding: 0 25px;
+        }
+        select {
+          padding: 0 45px;
+          width: 60%;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          background: $form-input-bg url(../img/select-arrow.png) 95% 50% no-repeat;
+          background-size: 15px 15px;
+        }
+        textarea {
+          padding: 25px;
+          height: 150px;
+        }
+      }
+      .submit-area {
+        margin-top: 50px;
+        display: flex;
+        justify-content: center;
+        .btn-submit {
+          background-color: $general-orange;
+          color: #fff;
+          width: 250px;
+          height: 50px;
+          border-radius: 10px;
+          font-size: 18px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          transition: all .3s ease-in-out;
+          &:hover {
+            background-color: $general-orange-hover;
+          }
+        }
+      }
+    }
+  }
+}

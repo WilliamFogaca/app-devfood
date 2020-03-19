@@ -28,3 +28,11 @@ img {
   height: auto;
   border-radius: 0;
 }
+
+button {
+  border: none;
+}
+
+input, select, button, textarea {
+  outline: none;
+}
