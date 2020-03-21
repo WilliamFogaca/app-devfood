@@ -44,5 +44,14 @@
         }
       }
     }
+    .loading-area {
+      display: none;
+      &.active {
+        display: block;
+      }
+      img {
+        margin: auto;
+      }
+    }
   }
 }

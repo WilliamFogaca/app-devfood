@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { useHistory } from "react-router-dom";
 
-export default props => {
+/* Actions */
+import { ShowModal } from '../actions/ModalActions';
+
+function PageTitle(props) {
   let history = useHistory();
   let backLink = '';
-  if(props.backLink) {
+  if (props.backLink) {
     backLink = <div className="back-link">
-      <a href="#" onClick={() => history.goBack()}>&#8592; Voltar</a>
+      <a href="#" onClick={() => props.openModal ? props.ShowModal('Descartar', 'Tem certeza que deseja Descartar?', true) : history.goBack()}>&#8592; Voltar</a>
     </div>;
   }
   return (
@@ -19,3 +24,11 @@ export default props => {
     </div>
   )
 }
+
+const mapStateToProps = store => ({
+  modal: store.modal
+});
+
+const mapDispatchProps = dispatch => bindActionCreators({ ShowModal }, dispatch)
+
+export default connect(mapStateToProps, mapDispatchProps)(PageTitle);

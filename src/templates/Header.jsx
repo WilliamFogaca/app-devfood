@@ -1,25 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import { Link } from 'react-router-dom';
 
-/* Redux Actions */
-import { LogoutUser } from '../actions/UserActions';
-
-/* IMGs */
-import UserImg from '../assets/img/user-img.png';
+/* Actions */
+import { ShowModal } from '../actions/ModalActions';
 
 class Header extends Component {
+  
   render() {
     var userInfos = '';
     var authMenu = '';
     if (this.props.userData.id !== 0) {
       userInfos = <div className="user-options">
         <span className="user-name">{this.props.userData.name}</span>
-        <img src={UserImg} className="user-img" alt="Imagem do usuário" />
+        <img src={this.props.userData.image} className="user-img" alt="Imagem do usuário" />
         <span className="separator"></span>
-        <a onClick={this.props.LogoutUser} className="logout">Sair</a>
+        <a onClick={() => this.props.ShowModal('Sair', 'Tem certeza que deseja sair?', false)} className="logout">Sair</a>
       </div>
 
       authMenu = <ul className="menu-area">
@@ -54,9 +51,10 @@ class Header extends Component {
 }
 
 const mapStateToProps = store => ({
-  userData: store.userData.data
+  userData: store.userData.data,
+  modal: store.modal
 });
 
-const mapDispatchProps = dispatch => bindActionCreators({ LogoutUser }, dispatch)
+const mapDispatchProps = dispatch => bindActionCreators({ ShowModal }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchProps)(Header);

@@ -1,32 +1,34 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Switch, Route, NotFoundRoute } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import App from './App';
+import Login from './components/Login';
+import Home from './components/Home';
+import MyRecipes from './components/MyRecipes';
+import AddRecipe from './components/AddRecipe';
+import SingleRecipe from './components/SingleRecipe';
+import Component404 from './components/Component404';
 
 class Routes extends Component {
   render() {
-    var authMinhasReceitas = '';
-    var authAdicionarReceita = '';
-    if(this.props.userData.id !== 0) {
-      authMinhasReceitas = <Route path="/minhas-receitas" component={() => <App page='minhas-receitas' />} />
-      authAdicionarReceita = <Route path="/adicionar-receita" component={() => <App page='adicionar-receita' />} />
-    }
     return (
-      <BrowserRouter>
-        <Switch>
-          <Route component={() => <App />} />
-          <Route path="/" exact component={() => <App />} />
-          {authMinhasReceitas}
-          {authAdicionarReceita}
-        </Switch>
-      </BrowserRouter>
+      <div>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/" exact component={this.props.userData.id !== 0 ? Home : Login} />
+            <Route path="/minhas-receitas" component={this.props.userData.id !== 0 ? MyRecipes : Login} />
+            <Route path="/adicionar-receita" component={this.props.userData.id !== 0 ? AddRecipe : Login} />
+            <Route path="/receita/:id" component={this.props.userData.id !== 0 ? SingleRecipe : Login} />
+            <Route component={Component404} />
+          </Switch>
+        </BrowserRouter>
+      </div>
     );
   }
 }
 
 const mapStateToProps = store => ({
-  userData: store.userData.data
+  userData: store.userData.data,
 });
 
 export default connect(mapStateToProps)(Routes);

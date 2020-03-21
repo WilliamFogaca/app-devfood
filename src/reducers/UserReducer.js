@@ -1,4 +1,4 @@
-const INITIAL_STATE = { 
+const INITIAL_STATE_USER = { 
   data: {
     id: 0,
     name: '',
@@ -8,7 +8,7 @@ const INITIAL_STATE = {
   }
 }
 
-export default (state = INITIAL_STATE, action) => {
+export default function UseReducer(state = INITIAL_STATE_USER, action) {
   switch (action.type) {
     case 'LOGIN_USER': 
       return { 
