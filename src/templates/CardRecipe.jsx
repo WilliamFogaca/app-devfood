@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default props => {
+import { trimWords } from '../helpers';
+
+const CardRecipe = (props) => {
   return (
-    <Link to={'/receita/' + props.recipeId}>
+    <Link to={'/receita/' + props.recipeId} title={props.title}>
       <div className="card-receita">
         <div className="img-area">
           <img src={props.categoryImg} alt="" />
@@ -12,10 +14,12 @@ export default props => {
           </div>
         </div>
         <div className="text-area">
-          <h3 className="card-title">{props.title}</h3>
+          <h3 className="card-title">{trimWords(props.title, 50)}</h3>
           <div className="card-description">
-            <p>{props.description}</p>
+            <p>{trimWords(props.description, 100)}</p>
           </div>
+        </div>
+        <div className="card-recipe-footer">
           <div className="link-to-receita">
             <span>Ver receita</span>
           </div>
@@ -24,3 +28,5 @@ export default props => {
     </Link>
   )
 } 
+
+export default CardRecipe;

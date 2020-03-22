@@ -48,6 +48,34 @@
         }
       }
     }
+    @include media-breakpoint-only(md) {
+      .container {
+        .menu-area {
+          li {
+            margin: 0 10px;
+          }
+        }
+      }
+    }
+    @include media-breakpoint-down(sm) {
+      .container {
+        flex-direction: column;
+        justify-content: center;
+        .menu-area {
+          margin: 15px 0;
+        }
+      }
+    }
+    @include media-breakpoint-down(xs) {
+      .container {
+        .menu-area {
+          flex-direction: column;
+          li {
+            margin: 10px 0;
+          }
+        }
+      }
+    }
   }
   .header-bottom {
     width: 100%;

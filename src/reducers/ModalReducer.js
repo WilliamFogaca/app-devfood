@@ -4,7 +4,8 @@ const INITIAL_STATE_MODAL = {
     btn: '',
     text: '',
     isBackLink: false
-  }
+  },
+  history: {}
 }
 
 export default function ModalReducer(state = INITIAL_STATE_MODAL, action) {
@@ -17,7 +18,8 @@ export default function ModalReducer(state = INITIAL_STATE_MODAL, action) {
           btn: action.payload.btn,
           text: action.payload.text,
           isBackLink: action.payload.isBackLink,
-        }
+        },
+        history: action.payload.history,
       }
     case 'HIDE_MODAL':
       return { 
@@ -27,7 +29,8 @@ export default function ModalReducer(state = INITIAL_STATE_MODAL, action) {
           btn: '',
           text: '',
           isBackLink: false
-        }
+        },
+        history: {}
       }
     default:
       return state

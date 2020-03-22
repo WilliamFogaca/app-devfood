@@ -1,0 +1,76 @@
+
+@import 'variables';
+
+.single-recipe {
+  margin: 40px 0;
+  display: none;
+  &.active {
+    display: block;
+  }
+  .container {
+    display: flex;
+    justify-content: center;
+    .card-single-recipe {
+      background-color: #fff;
+      width: 75%;
+      .img-area {
+        position: relative;
+        .recipe-img {
+          width: 100%;
+          height: 300px;
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: cover;
+        }
+        .category-area {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 60px;
+          background-image: linear-gradient(to top, black, transparent);
+          display: flex;
+          align-items: flex-end;
+          span {
+            color: #fff;
+            padding: 10px 25px;
+            font-size: 26px;
+          }
+        }
+      }
+
+      .description-area {
+        padding: 25px 50px;
+        .title-description-area {
+          color: $general-orange;
+          font-size: 22px;
+          font-weight: 700;
+        }
+        .recipe-description {
+          color: $general-blue;
+        }
+      }
+    }
+  }
+  @include media-breakpoint-down(md) {
+    .container {
+      .card-single-recipe {
+        width: 100%;
+      }
+    }
+  }
+  @include media-breakpoint-down(xs) {
+    .container {
+      .card-single-recipe {
+        .img-area {
+          .recipe-img {
+            height: 215px;
+          }
+        }
+        .description-area {
+          padding: 25px;
+        }
+      }
+    }
+  }
+}

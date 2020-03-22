@@ -45,12 +45,21 @@
       }
     }
     .loading-area {
-      display: none;
-      &.active {
-        display: block;
+      margin-top: 25px;
+    }
+    @include media-breakpoint-down(xs) {
+      width: 100%;
+      padding: 25px 20px;
+      margin: 0 15px;
+      .input-area {
+        input {
+          width: 100%;
+        }
       }
-      img {
-        margin: auto;
+      .submit-area {
+        .btn-submit {
+          width: 100%;
+        }
       }
     }
   }

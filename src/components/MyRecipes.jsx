@@ -1,121 +1,148 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-/* Styles */
-import '../assets/scss/MinhasReceitas.scss';
 
+/* Components */
 import PageTitle from '../templates/PageTitle';
 import Header from '../templates/Header';
+import CardRecipe from '../templates/CardRecipe';
+
+/* Service */
+import { get } from '../service/API';
 
 /* IMGs */
-import CardImg from '../assets/img/card-receita-img.png';
+import LoadingGif from '../assets/img/loading.gif';
 
-export default class MyRecipes extends Component {
-  render() {
-    return (
-      <div className="root">
-        <Header />
-        <PageTitle title={'Minhas Receitas'} />
-        <div className="content">
-          <div className="minhas-receitas">
-            <div className="container">
-              <ul className="receitas-list">
-                <li>
-                  <a href="#">
-                    <div className="card-receita">
-                      <div className="img-area">
-                        <img src={CardImg} alt="" />
-                        <div className="card-category">
-                          <span>Categoria 1</span>
-                        </div>
-                      </div>
-                      <div className="text-area">
-                        <h3 className="card-title">Calabresa</h3>
-                        <div className="card-description">
-                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut odio veniam nobis fugit. Velit beatae expedita labore</p>
-                        </div>
-                        <div className="link-to-receita">
-                          <span>Ver receita</span>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <div className="card-receita">
-                      <div className="img-area">
-                        <img src={CardImg} alt="" />
-                        <div className="card-category">
-                          <span>Categoria 1</span>
-                        </div>
-                      </div>
-                      <div className="text-area">
-                        <h3 className="card-title">Calabresa</h3>
-                        <div className="card-description">
-                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut odio veniam nobis fugit. Velit beatae expedita labore</p>
-                        </div>
-                        <div className="link-to-receita">
-                          <span>Ver receita</span>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <div className="card-receita">
-                      <div className="img-area">
-                        <img src={CardImg} alt="" />
-                        <div className="card-category">
-                          <span>Categoria 1</span>
-                        </div>
-                      </div>
-                      <div className="text-area">
-                        <h3 className="card-title">Calabresa</h3>
-                        <div className="card-description">
-                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut odio veniam nobis fugit. Velit beatae expedita labore</p>
-                        </div>
-                        <div className="link-to-receita">
-                          <span>Ver receita</span>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <div className="card-receita">
-                      <div className="img-area">
-                        <img src={CardImg} alt="" />
-                        <div className="card-category">
-                          <span>Categoria 1</span>
-                        </div>
-                      </div>
-                      <div className="text-area">
-                        <h3 className="card-title">Calabresa</h3>
-                        <div className="card-description">
-                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut odio veniam nobis fugit. Velit beatae expedita labore</p>
-                        </div>
-                        <div className="link-to-receita">
-                          <span>Ver receita</span>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <Link to="/adicionar-receita">
-                    <div className="card-receita card-add-receita">
-                      <p className="plus">+</p>
-                      <p className="text">Adicionar Receita</p>
-                    </div>
-                  </Link>
-                </li>
-              </ul>
-            </div>
+const MyRecipes = (props) => {
+  const [MyRecipes, setMyRecipes] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    try {
+      get(
+        'https://receitas.devari.com.br/api/v1/recipe?user=' + props.userData.id,
+        props.userData.token
+      ).then((response) => {
+        setMyRecipes(
+          response.data.map((recipe) => (
+            <li key={recipe.id}>
+              <CardRecipe recipeId={recipe.id} categoryImg={recipe.category.image} categoryName={recipe.category.name} title={recipe.title} description={recipe.description} />
+            </li>
+          ))
+        );
+        setLoading(false);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  return (
+    <div className="root">
+      <Header />
+      <PageTitle title={'Minhas Receitas'} />
+      <div className="content">
+        <div className={'loading-area' + (loading ? ' active' : '')}>
+          <img src={LoadingGif} />
+          <span>Carregando...</span>
+        </div>
+        <div className="minhas-receitas">
+          <div className="container">
+            <ul className="receitas-list">
+              {MyRecipes}
+              <li>
+                <Link to="/adicionar-receita">
+                  <div className="card-receita card-add-receita">
+                    <p className="plus">+</p>
+                    <p className="text">Adicionar Receita</p>
+                  </div>
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
-    )
-  }
-}
+    </div>
+  );
+};
+
+const mapStateToProps = store => ({
+  userData: store.userData.data
+});
+
+export default connect(mapStateToProps)(MyRecipes);
+
+/* Class Component */
+// class MyRecipes extends Component {
+
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       MyRecipes: [],
+//       loading: false
+//     }
+//     this.renderMyReceipes = this.renderMyReceipes.bind(this);
+//   }
+
+//   componentDidMount() {
+//     this.renderMyReceipes();
+//     this.setState({loading: true});
+//   }
+
+//   renderMyReceipes = async () => {
+//     try {
+//       const response = await get(
+//         'https://receitas.devari.com.br/api/v1/recipe?user=' + this.props.userData.id,
+//         this.props.userData.token
+//       );
+//       this.setState({
+//         MyRecipes: response.data.map((recipe) => (
+//           <li key={recipe.id}>
+//             <CardRecipe recipeId={recipe.id} categoryImg={recipe.category.image} categoryName={recipe.category.name} title={recipe.title} description={recipe.description} />
+//           </li>
+//         ))
+//       });
+//       this.setState({loading: false});
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+
+
+//   render() {
+//     return (
+//       <div className="root">
+//         <Header />
+//         <PageTitle title={'Minhas Receitas'} />
+//         <div className="content">
+//           <div className={'loading-area' + (this.state.loading ? ' active' : '')}>
+//             <img src={LoadingGif} />
+//             <span>Carregando...</span>
+//           </div>
+//           <div className="minhas-receitas">
+//             <div className="container">
+//               <ul className="receitas-list">
+//                 {this.state.MyRecipes}
+//                 <li>
+//                   <Link to="/adicionar-receita">
+//                     <div className="card-receita card-add-receita">
+//                       <p className="plus">+</p>
+//                       <p className="text">Adicionar Receita</p>
+//                     </div>
+//                   </Link>
+//                 </li>
+//               </ul>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     )
+//   }
+// }
+
+// const mapStateToProps = store => ({
+//   userData: store.userData.data
+// });
+
+// export default connect(mapStateToProps)(MyRecipes);

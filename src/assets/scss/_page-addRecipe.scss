@@ -34,7 +34,7 @@
           padding: 0 25px;
         }
         select {
-          padding: 0 45px;
+          padding: 0 45px 0 25px;
           width: 60%;
           -webkit-appearance: none;
           -moz-appearance: none;
@@ -66,6 +66,40 @@
             background-color: $general-orange-hover;
           }
         }
+      }
+      .message-result-area {
+        margin: auto;
+        margin: 25px 0 10px 0;
+      }
+    
+      .link-result-area {
+        margin-bottom: 25px;
+      }
+    }
+  }
+  @include media-breakpoint-down(md) {
+    .form-area {
+      form {
+        padding: 50px;
+        width: 100%;
+      }
+    }
+  }
+  @include media-breakpoint-down(sm) {
+    .form-area {
+      form {
+        .input-area {
+          select {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+  @include media-breakpoint-down(xs) {
+    .form-area {
+      form {
+        padding: 50px 25px;
       }
     }
   }

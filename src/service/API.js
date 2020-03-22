@@ -1,20 +1,43 @@
 import axios from 'axios';
 import regeneratorRuntime from 'regenerator-runtime';
 
-export const auth = async (link, data) => {
+export const post = async (link, data, token = null) => {
   return await axios({
-    method: 'post',
+    method: 'POST',
     url: link,
     validateStatus: function (status) {
       return status >= 200 && status < 400; // default
     },
-    data
+    data,
+    headers: token !== null ? {'Authorization': `Token ${token}`} : ''
   });
 }
 
-export const getList = (link, token) => {
+export const get = (link, token) => {
   return axios({
-    method: 'get',
+    method: 'GET',
+    url: link,
+    validateStatus: function (status) {
+      return status >= 200 && status < 400; // default
+    },
+    headers: {'Authorization': `Token ${token}`}
+  });
+}
+
+export const put = (link, token) => {
+  return axios({
+    method: 'PUT',
+    url: link,
+    validateStatus: function (status) {
+      return status >= 200 && status < 400; // default
+    },
+    headers: {'Authorization': `Token ${token}`}
+  });
+}
+
+export const deleteR = (link, token) => {
+  return axios({
+    method: 'DELETE',
     url: link,
     validateStatus: function (status) {
       return status >= 200 && status < 400; // default

@@ -5,17 +5,19 @@ import { persistor, store } from './store';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 
 /* Routes */
-import Routes from './routes';
+import Routes from './routes/routes';
 
 /* Styles */
 import './assets/scss/index.scss';
 import Popup from './templates/Popup';
 
+const root = document.getElementById('root');
+
 ReactDOM.render(
   <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
+    <PersistGate persistor={persistor}>
       <Routes />
       <Popup />
     </PersistGate>
   </Provider>
-, document.getElementById('root'));
+, root);

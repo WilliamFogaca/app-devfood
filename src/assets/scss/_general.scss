@@ -18,29 +18,80 @@ body {
     color: $general-orange;
     font-size: 20px;
   }
-  .back-link {
+
+  .back-link, .recipe-options {
     position: absolute;
-    left: 0;
     top: 0;
     bottom: 0;
     display: flex;
     align-items: center;
+  }
+
+  .back-link {
+    left: 0;
     a {
       font-size: 18px;
       color: $general-blue;
       font-weight: 700;
     }
   }
+
+  .recipe-options {
+    right: 0;
+    .option-link {
+      font-size: 18px;
+      font-weight: 500;
+      color: #fff;
+      padding: 5px 20px;
+      margin: 0 10px;
+      border-radius: 10px;
+      transition: all .3s ease-in-out;
+      &.edit-option {
+        background-color: $general-blue;
+        &:hover {
+          background-color: $general-blue-hover;
+        }
+      }
+      &.delete-option {
+        background-color: $general-red;
+        &:hover {
+          background-color: $general-red-hover;
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .recipe-options {
+      position: unset;
+    }
+  }
+
+  @include media-breakpoint-down(xs) {
+    .back-link {
+      display: none;
+    }
+  }
 }
 
 /* Mensagens de erro */
-.error-messages {
+.message-result-area {
   display: none;
-  background-color: $general-red;
   border-radius: 10px;
   margin-top: 10px;
+  background-color: $general-green;
+  justify-content: center;
+  align-items: center;
+  &.error {
+    background-color: $general-red;
+  }
   &.active {
-    display: block;
+    display: flex;
   }
   span {
     display: flex;
@@ -52,6 +103,44 @@ body {
   }
 }
 
+.link-result-area {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  &.active {
+    display: flex;
+  }
+  .link {
+    font-size: 18px;
+    background-color: $general-orange;
+    color: #fff;
+    width: 150px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    border-radius: 10px;
+  }
+}
+
+.loading-area {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  &.active {
+    display: flex;
+  }
+  img {
+    width: 75px;
+  }
+  span {
+    margin-left: 15px;
+    font-size: 22px;
+    color: $general-orange;
+  }
+}
+
 /* Lista das receitas */
 .receitas-list {
   display: flex;
@@ -60,16 +149,30 @@ body {
   li {
     flex-basis: 33.33%;
     padding: 0 30px 50px 30px;
-    &:nth-child(3n+1) {
-      padding-left: 0;
+    @include media-breakpoint-up(lg) {
+      &:nth-child(3n+1) {
+        padding-left: 0;
+      }
+      &:nth-child(3n+2) {
+        padding: 0 15px 50px 15px;
+      }
+      &:nth-child(3n+3) {
+        padding-right: 0;
+      }
     }
-    &:nth-child(3n+2) {
-      padding: 0 15px 50px 15px;
+    @include media-breakpoint-only(md) {
+      flex-basis: 50%;
+      &:nth-child(2n+1) {
+        padding-left: 0;
+      }
+      &:nth-child(2n+2) {
+        padding-right: 0;
+      }
     }
-    &:nth-child(3n+3) {
-      padding-right: 0;
+    @include media-breakpoint-down(sm) {
+      flex-basis: 100%;
+      padding: 0 0 50px 0;
     }
-    
   }
 }
 
@@ -77,7 +180,8 @@ body {
 .card-receita {
   background-color: #fff;
   border-radius: 15px;
-  min-height: 381px;
+  min-height: 402px;
+  position: relative;
   &:hover {
     -webkit-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.3);
     -moz-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.3);
@@ -108,6 +212,8 @@ body {
     img {
       border-top-left-radius: 15px;
       border-top-right-radius: 15px;
+      height: 215px;
+      width: 100%;
     }
     .card-category {
       position: absolute;
@@ -139,14 +245,30 @@ body {
 
     .card-description {
       color: $general-blue;
-      margin-bottom: 15px;
+      margin-bottom: 50px;
     }
-
+  }
+  .card-recipe-footer {
+    position: absolute;
+    bottom: 15px;
+    right: 25px;
     .link-to-receita {
-      display: flex;
-      justify-content: flex-end;
       span {
         color: $general-orange;
+      }
+    }
+  }
+  @include media-breakpoint-only(lg) {
+    .img-area {
+      img {
+        height: 160px;
+      }
+    }
+  }
+  @include media-breakpoint-down(sm) {
+    .img-area {
+      img {
+        height: auto;
       }
     }
   }
