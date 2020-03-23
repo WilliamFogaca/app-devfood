@@ -11,8 +11,6 @@ import CardRecipe from '../templates/CardRecipe';
 /* Service */
 import { get } from '../service/API';
 
-/* Actions */
-import { RecipeDeletedModal } from '../actions/ModalActions';
 
 /* IMGs */
 import LoadingGif from '../assets/img/loading.gif';
@@ -45,6 +43,7 @@ const MyRecipes = (props) => {
     }
   }
 
+
   return (
     <div className="root">
       <Header />
@@ -53,7 +52,7 @@ const MyRecipes = (props) => {
         <div className="minhas-receitas">
           <div className="container">
 
-            <div className={'message-result-area error ' + ((props.modal.recipeDeleted) ? 'active' : '')} data-message-area>
+            <div className={'message-result-area error ' + (props.location.state ? props.location.state.recipeDeleted ? 'active' : '' : '')} data-message-area>
               <span>Receita Apagada!</span>
             </div>
 
@@ -85,6 +84,4 @@ const mapStateToProps = store => ({
   modal: store.modal
 });
 
-const mapDispatchthis = dispatch => bindActionCreators({ RecipeDeletedModal }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchthis)(MyRecipes);
+export default connect(mapStateToProps)(MyRecipes);

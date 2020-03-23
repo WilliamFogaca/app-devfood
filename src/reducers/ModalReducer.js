@@ -6,8 +6,7 @@ const INITIAL_STATE_MODAL = {
     isBackLink: false
   },
   recipeId: 0,
-  history: {},
-  recipeDeleted: false
+  history: {}
 }
 
 export default function ModalReducer(state = INITIAL_STATE_MODAL, action) {
@@ -35,11 +34,6 @@ export default function ModalReducer(state = INITIAL_STATE_MODAL, action) {
         },
         recipeId: 0,
         history: {}
-      }
-    case 'RECIPE_DELETED_MODAL':
-      return {
-        ...state, 
-        recipeDeleted: true,
       }
     default:
       return state

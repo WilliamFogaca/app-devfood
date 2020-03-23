@@ -7,7 +7,3 @@ export const ShowModal = (btn, text, isBackLink, recipeId = 0, history = null) =
 export const HideModal = () => ({
   type: 'HIDE_MODAL'
 });
-
-export const RecipeDeletedModal = () => ({
-  type: 'RECIPE_DELETED_MODAL'
-});

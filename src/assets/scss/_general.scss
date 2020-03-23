@@ -12,14 +12,16 @@ body {
   .container {
     position: relative;
   }
-  
+
   h2 {
     text-align: center;
     color: $general-orange;
     font-size: 20px;
+    padding: 0 250px;
   }
 
-  .back-link, .recipe-options {
+  .back-link,
+  .recipe-options {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -45,7 +47,7 @@ body {
       padding: 5px 20px;
       margin: 0 10px;
       border-radius: 10px;
-      transition: all .3s ease-in-out;
+      transition: all 0.3s ease-in-out;
       cursor: pointer;
       &.edit-option {
         background-color: $general-blue;
@@ -62,11 +64,15 @@ body {
     }
   }
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     .container {
       display: flex;
       flex-direction: column;
       align-items: center;
+    }
+    h2 {
+      padding: 0 100px;
+      margin-bottom: 15px;
     }
     .recipe-options {
       position: unset;
@@ -74,6 +80,9 @@ body {
   }
 
   @include media-breakpoint-down(xs) {
+    h2 {
+      padding: 0 15px;
+    }
     .back-link {
       display: none;
     }
@@ -151,22 +160,22 @@ body {
     flex-basis: 33.33%;
     padding: 0 30px 50px 30px;
     @include media-breakpoint-up(lg) {
-      &:nth-child(3n+1) {
+      &:nth-child(3n + 1) {
         padding-left: 0;
       }
-      &:nth-child(3n+2) {
+      &:nth-child(3n + 2) {
         padding: 0 15px 50px 15px;
       }
-      &:nth-child(3n+3) {
+      &:nth-child(3n + 3) {
         padding-right: 0;
       }
     }
     @include media-breakpoint-only(md) {
       flex-basis: 50%;
-      &:nth-child(2n+1) {
+      &:nth-child(2n + 1) {
         padding-left: 0;
       }
-      &:nth-child(2n+2) {
+      &:nth-child(2n + 2) {
         padding-right: 0;
       }
     }
@@ -275,7 +284,6 @@ body {
   }
 }
 
-
 .modal {
   position: fixed;
   z-index: 999;
@@ -284,8 +292,8 @@ body {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
   display: none;
   justify-content: center;
   align-items: center;
@@ -297,7 +305,7 @@ body {
   .modal-area {
     background-color: #fefefe;
     margin: auto;
-    width: 30%;
+    width: 400px;
     border-radius: 10px;
     .modal-area-content {
       position: relative;
@@ -315,7 +323,7 @@ body {
         align-items: center;
         border-radius: 50%;
         font-weight: 700;
-        transition: all .3s ease-in-out;
+        transition: all 0.3s ease-in-out;
         cursor: pointer;
         &:hover {
           background-color: $general-red-hover;
@@ -352,5 +360,21 @@ body {
       }
     }
   }
+  @include media-breakpoint-down(xs) {
+    .modal-area {
+      width: 300px;
+      .modal-area-content {
+        .options-area {
+          a {
+            &.cancelar-btn {
+              margin-left: 25px;
+            }
+            &.action-btn {
+              margin-right: 25px;
+            }
+          }
+        }
+      }
+    }
+  }
 }
-

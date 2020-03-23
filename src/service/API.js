@@ -23,11 +23,11 @@ export const get = (link, token) => {
   );
 }
 
-export const patch = (link, data, token) => {
+export const put = (link, data, token) => {
   const headers = {
     'Authorization': `Token ${token}`
   }
-  return API.patch(
+  return API.put(
     link, 
     data,
     { headers }

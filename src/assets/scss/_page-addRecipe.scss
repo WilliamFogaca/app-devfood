@@ -2,9 +2,16 @@
 
 .adicionar-receita {
   margin: 40px 0;
+  display: none;
+  &.active {
+    display: block;
+  }
   .form-area {
-    display: flex;
+    display: none;
     justify-content: center;
+    &.active {
+      display: flex;
+    }
     form {
       background-color: #fff;
       padding: 50px 100px;

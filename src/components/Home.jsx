@@ -6,6 +6,8 @@ import PageTitle from '../templates/PageTitle';
 import Header from '../templates/Header';
 import CardRecipe from '../templates/CardRecipe';
 
+import usePagination from '../templates/Pagination';
+
 /* Service */
 import { get } from '../service/API';
 
@@ -42,11 +44,13 @@ const Home = (props) => {
     }
   }
 
+  
+
   return (
     <div className="root">
       <Header />
       <PageTitle title={'Receitas'} />
-      <div className="content">
+      <div className="content" id="content">
         <div className={'loading-area' + (loading ? ' active' : '')}>
           <img src={LoadingGif} />
           <span>Carregando...</span>

@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 
 /* Redux Actions */
 import { LogoutUser } from '../actions/UserActions';
-import { HideModal, RecipeDeletedModal } from '../actions/ModalActions';
+import { HideModal } from '../actions/ModalActions';
 
 /* Service */
 import { deleteR } from '../service/API';
@@ -26,9 +26,9 @@ const Popup = (props) => {
         props.userData.token
       ).then((response) => {
         props.modal.history.push({
-          pathname: '/minhas-receitas'
+          pathname: '/minhas-receitas',
+          state: { recipeDeleted: true }
         });
-        props.RecipeDeletedModal();
       });
     } catch (error) {
       console.log(error);
@@ -76,6 +76,6 @@ const mapStateTothis = store => ({
   modal: store.modal
 });
 
-const mapDispatchthis = dispatch => bindActionCreators({ LogoutUser, HideModal, RecipeDeletedModal }, dispatch);
+const mapDispatchthis = dispatch => bindActionCreators({ LogoutUser, HideModal }, dispatch);
 
 export default connect(mapStateTothis, mapDispatchthis)(Popup);

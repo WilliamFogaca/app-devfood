@@ -29,6 +29,7 @@ const Header = (props) => {
       </li>
     </ul>
   }
+
   return (
     <div className="header">
       <div className="header-top">
