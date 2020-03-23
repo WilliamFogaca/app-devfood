@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
+import { generatePath } from "react-router";
 
 import { useHistory } from "react-router-dom";
 
@@ -12,16 +13,22 @@ const PageTitle = (props) => {
   let history = useHistory();
   let backLink = '';
   let recipeOptions = '';
+  var recipeEditUrl = '';
+  if(props.recipeOptions) {
+    recipeEditUrl = generatePath("/receita/:id/editar", {
+      id: props.recipeOptions,
+    });
+  }
   
   if (props.backLink) {
     backLink = <div className="back-link">
-      <a href="#" onClick={() => props.openModal ? props.ShowModal('Descartar', 'Tem certeza que deseja Descartar?', true, history) : history.goBack()}>&#8592; Voltar</a>
+      <a href="#" onClick={() => props.openModal ? props.ShowModal('Descartar', 'Tem certeza que deseja Descartar?', true, 0, history) : history.goBack()}>&#8592; Voltar</a>
     </div>;
   }
   if(props.recipeOptions) {
     recipeOptions = <div className="recipe-options">
-      <Link className="option-link edit-option" to={'/receita/edit/' + props.recipeOptions}>Editar</Link>
-      <Link className="option-link delete-option" to={'/receita/delete/' + props.recipeOptions}>Apagar</Link>
+      <Link className="option-link edit-option" to={recipeEditUrl}>Editar</Link>
+      <a className="option-link delete-option" onClick={() => props.ShowModal('Apagar', 'Tem certeza que deseja Apagar?', false, props.recipeOptions, history)}>Apagar</a>
     </div>
   }
 

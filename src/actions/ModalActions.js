@@ -1,9 +1,13 @@
 
-export const ShowModal = (btn, text, isBackLink, history) => ({
+export const ShowModal = (btn, text, isBackLink, recipeId = 0, history = null) => ({
   type: 'SHOW_MODAL',
-  payload: { btn, text, isBackLink, history }
+  payload: { btn, text, isBackLink, recipeId, history }
 });
 
 export const HideModal = () => ({
   type: 'HIDE_MODAL'
+});
+
+export const RecipeDeletedModal = () => ({
+  type: 'RECIPE_DELETED_MODAL'
 });

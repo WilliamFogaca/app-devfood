@@ -26,7 +26,7 @@ const Login = (props) => {
     setLoading(true);
     try {
       post(
-        'https://receitas.devari.com.br/authentication/',
+        'authentication/',
         {
           username: username,
           password: password,
@@ -84,98 +84,3 @@ const mapStateToProps = store => ({
 const mapDispatchProps = dispatch => bindActionCreators({ LoginUser }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchProps)(Login);
-
-/* Class Component */
-// class Login extends Component {
-
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       username: '',
-//       password: '',
-//       loading: false
-//     }
-
-//     this.authenticate = this.authenticate.bind(this);
-//     this.changeUsername = this.changeUsername.bind(this);
-//     this.changePassword = this.changePassword.bind(this);
-//   }
-
-//   changeUsername = (event) => {
-//     this.setState({ username: event.target.value });
-//   }
-
-//   changePassword = (event) => {
-//     this.setState({ password: event.target.value });
-//   }
-
-
-
-//   authenticate = async (event) => {
-//     event.preventDefault();
-//     this.setState({ loading: true });
-//     try {
-//       const response = await post(
-//         'https://receitas.devari.com.br/authentication/',
-//         {
-//           username: this.state.username,
-//           password: this.state.password,
-//         }
-//       );
-
-//       this.setState({ loading: false });
-
-//       this.props.LoginUser(response.data.id, response.data.name, response.data.image, response.data.email, response.data.token);
-
-//     } catch (error) {
-//       const { response } = error;
-//       const { request, ...errorObject } = response;
-
-//       const containerError = document.querySelector('[data-error-message]');
-//       containerError.classList.add('error', 'active');
-//       containerError.innerHTML = `<span>${JSON.parse(response.request.response).non_field_errors[0]}</span>`;
-//     }
-//   }
-
-//   render() {
-//     return (
-//       <div className="root">
-//         {this.props.userData.id !== 0 ? <Route render={() => (<Redirect to="/" />)} /> : ''}
-//         <Header />
-//         <PageTitle title={'Entre em sua conta'} />
-//         <div className="content">
-//           <div className="login-area">
-//             <div className="card-login">
-//               <form onSubmit={this.authenticate}>
-//                 <div className="input-area">
-//                   <label htmlFor="email">E-mail</label>
-//                   <input type="email" name="email" id="email" placeholder="exemplo@exemplo.com" onChange={this.changeUsername} required />
-//                 </div>
-//                 <div className="input-area">
-//                   <label htmlFor="senha">Senha</label>
-//                   <input type="password" name="senha" id="senha" placeholder="*************" onChange={this.changePassword} required />
-//                 </div>
-//                 <div className="submit-area">
-//                   <button className="btn-submit" type="submit">Entrar</button>
-//                 </div>
-//                 <div className={'loading-area' + (this.state.loading ? ' active' : '')}>
-//                   <img src={LoadingGif} />
-//                   <span>Carregando...</span>
-//                 </div>
-//                 <div className="message-result-area" data-error-message></div>
-//               </form>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     )
-//   }
-// }
-
-// const mapStateToProps = store => ({
-//   userData: store.userData.data
-// });
-
-// const mapDispatchProps = dispatch => bindActionCreators({ LoginUser }, dispatch)
-
-// export default connect(mapStateToProps, mapDispatchProps)(Login);

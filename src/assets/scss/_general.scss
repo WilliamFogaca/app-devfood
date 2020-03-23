@@ -46,6 +46,7 @@ body {
       margin: 0 10px;
       border-radius: 10px;
       transition: all .3s ease-in-out;
+      cursor: pointer;
       &.edit-option {
         background-color: $general-blue;
         &:hover {
@@ -343,6 +344,9 @@ body {
           &.action-btn {
             color: #bfbfbf;
             margin-right: 65px;
+            &.action-delete {
+              color: $general-red;
+            }
           }
         }
       }

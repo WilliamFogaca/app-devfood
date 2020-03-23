@@ -1,9 +1,15 @@
 const path = require('path');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const htmlPlugin = new HtmlWebPackPlugin({
+  template: "./src/index.html",
+  filename: "./index.html"
+});
 
 module.exports = {
   entry: path.resolve(__dirname, 'src', 'index.js'),
   output: {
-    path: path.resolve(__dirname, 'public'),
+    path: path.resolve(__dirname, 'public/src'),
+    publicPath: '/',
     filename: 'bundle.js'
   },
   devServer: {
@@ -14,6 +20,7 @@ module.exports = {
   resolve: {
     extensions: ['*', '.js', '.jsx']
   },
+  plugins: [htmlPlugin],
   module: {
     rules: [
       {
@@ -33,8 +40,11 @@ module.exports = {
             loader: "css-loader"
           },
           {
-            loader: "sass-loader"
-          }
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
         ]
       },
       {
