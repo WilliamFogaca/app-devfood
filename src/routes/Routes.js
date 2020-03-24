@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Login from '../components/Login';
 import Home from '../components/Home';
@@ -17,8 +17,8 @@ const Routes = (props) => {
     <Router>
       <Switch>
         <Route path="/login" component={Login} />
-        {/* Rotas privadas */}
 
+        {/* Rotas privadas */}
         <PrivateRoute exact path="/" component={Home} authenticated={userAuthenticated}/>
 
         <PrivateRoute path="/minhas-receitas" name="minhas-receitas" component={MyRecipes} authenticated={userAuthenticated} />
@@ -28,8 +28,7 @@ const Routes = (props) => {
 
         <PrivateRoute exact path="/receita/:id" component={SingleRecipe} authenticated={userAuthenticated} />
         <PrivateRoute path="/receita/:id/editar" component={AddRecipe} authenticated={userAuthenticated} />
-
-        
+        {/* Fim rotas privadas */}
 
         <Route>
           <Component404 />

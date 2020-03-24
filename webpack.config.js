@@ -8,7 +8,7 @@ const htmlPlugin = new HtmlWebPackPlugin({
 module.exports = {
   entry: path.resolve(__dirname, 'src', 'index.js'),
   output: {
-    path: path.resolve(__dirname, 'public/src'),
+    path: path.resolve(__dirname, 'public'),
     publicPath: '/',
     filename: 'bundle.js'
   },
