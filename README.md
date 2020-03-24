@@ -13,7 +13,7 @@ Requisitos
 * Yarn instalado em sua máquina (Opcional)
 
 Clonar projeto para sua máquina
-* $ git clone https://github.com/WilliamFogaca/todo-app-react.git
+* $ git clone https://github.com/WilliamFogaca/app-devfood.git
 
 Entre na pasta do repositório e instale as dependências
 * $ cd app-devfood && npm/yarn install
