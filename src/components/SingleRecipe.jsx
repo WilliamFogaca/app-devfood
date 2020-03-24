@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 /* Components */
 import PageTitle from '../templates/PageTitle';
 import Header from '../templates/Header';
+import ErrorMessage from '../templates/ErrorMessage';
 
 /* Service */
 import { get } from '../service/API';
@@ -14,6 +15,7 @@ import LoadingGif from '../assets/img/loading.gif';
 
 const SingleRecipe = (props) => {
   let { id } = useParams();
+  const [errorMessage, setErrorMessage] = useState({});
   const [recipe, setRecipe] = useState({
     id: 0,
     title: '',
@@ -29,19 +31,27 @@ const SingleRecipe = (props) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    getRecipe();
+  }, []);
+
+  const getRecipe = async () => {
     setLoading(true);
     try {
-      get(
+      const response = await get(
         'https://receitas.devari.com.br/api/v1/recipe/' + id,
         props.userData.token,
-      ).then((response) => {
-        setRecipe(response.data);
-        setLoading(false);
-      });
+      );
+      setRecipe(response.data);
+      setLoading(false);
     } catch (error) {
-      console.log(error);
+      const { response } = error;
+      const responseErrors = JSON.parse(response.request.response);
+      Object.keys(responseErrors).forEach(function (item) {
+        setErrorMessage({ key: item, message: responseErrors[item] });
+      });
+      setLoading(false);
     }
-  }, []);
+  }
 
   return (
     <div className="root">
@@ -52,11 +62,13 @@ const SingleRecipe = (props) => {
           <img src={LoadingGif} />
           <span>Carregando...</span>
         </div>
-        <div className={'single-recipe' + ((!loading) ? ' active' : '')}>
+
+        <div className="single-recipe">
           <div className="container">
-            <div className="card-single-recipe">
+            {errorMessage.key === 'detail' ? <ErrorMessage message={errorMessage.message} /> : ''}
+            <div className={'card-single-recipe' + ((Object.keys(errorMessage).length === 0 && !loading) ? ' active' : '')}>
               <div className="img-area">
-                <div className="recipe-img" style={{backgroundImage: `url(${recipe.category.image})`}}></div>
+                <div className="recipe-img" style={{ backgroundImage: `url(${recipe.category.image})` }}></div>
                 <div className="category-area">
                   <span>{recipe.category.name}</span>
                 </div>

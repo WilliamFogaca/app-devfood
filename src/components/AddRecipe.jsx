@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 /* Components */
 import PageTitle from '../templates/PageTitle';
 import Header from '../templates/Header';
+import ErrorMessage from '../templates/ErrorMessage';
 
 /* Service */
 import { post, get, put } from '../service/API';
@@ -23,7 +24,9 @@ const AddRecipe = (props) => {
   const [categories, setCategories] = useState([]);
   const [isRecipeCreatedOrEdited, setIsRecipeCreatedOrEdited] = useState(false);
   const [recipeCreatedOrEdited, setRecipeCreatedOrEdited] = useState({});
-  const [errorMessage, setErrorMessage] = useState('');
+
+  const [errorMessage, setErrorMessage] = useState({});
+
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const recipeInitialState = {
@@ -55,7 +58,7 @@ const AddRecipe = (props) => {
     } else {
       setRecipe(recipeInitialState);
       setHasPermission(true);
-      setErrorMessage('');
+      setErrorMessage({});
     }
   }, [id]);
 
@@ -73,8 +76,11 @@ const AddRecipe = (props) => {
       );
       setLoading(false);
     } catch (error) {
-      console.log(error);
-      setErrorMessage(`Erro: ${error}`);
+      const { response } = error;
+      const responseErrors = JSON.parse(response.request.response);
+      Object.keys(responseErrors).forEach(function (item) {
+        setErrorMessage({ key: item, message: responseErrors[item] });
+      });
     }
   }
 
@@ -88,14 +94,17 @@ const AddRecipe = (props) => {
       );
       if (response.data.user.id !== props.userData.id) {
         setHasPermission(false);
-        setErrorMessage(`Você não possui permissão para editar essa receita.`);
+        setErrorMessage({ key: 'no-permission', message: 'Você não possui permissão para editar essa receita!' });
         return;
       }
       setRecipe(response.data);
       setLoading(false);
     } catch (error) {
-      console.log(error);
-      setErrorMessage(`Erro: ${error}`);
+      const { response } = error;
+      const responseErrors = JSON.parse(response.request.response);
+      Object.keys(responseErrors).forEach(function (item) {
+        setErrorMessage({ key: item, message: responseErrors[item] });
+      });
     }
   }
 
@@ -103,7 +112,7 @@ const AddRecipe = (props) => {
   const createOrEditRecipe = async (event) => {
     event.preventDefault();
     if (recipe.title === '' || recipe.description === '' || recipe.category.id === 0) {
-      setErrorMessage('Todos os campos são obrigatórios!');
+      setErrorMessage({ key: 'all-fields-required', message: 'Todos os campos são obrigatórios!' });
       return;
     } else {
       try {
@@ -120,7 +129,7 @@ const AddRecipe = (props) => {
           );
           responseResult = response.data;
           setSuccessMessage('Receita atualizada com sucesso!');
-          setErrorMessage('');
+          setErrorMessage({});
         } else {
           const response = await post(
             'api/v1/recipe/',
@@ -134,14 +143,16 @@ const AddRecipe = (props) => {
           );
           responseResult = response.data;
           setSuccessMessage('Receita criada com sucesso!');
-          setErrorMessage('');
+          setErrorMessage({});
         }
-
         setRecipeCreatedOrEdited(responseResult);
         setIsRecipeCreatedOrEdited(true);
       } catch (error) {
-        console.log(error);
-        setErrorMessage(`Erro: ${error}`);
+        const { response } = error;
+        const responseErrors = JSON.parse(response.request.response);
+        Object.keys(responseErrors).forEach(function (item) {
+          setErrorMessage({ key: item, message: responseErrors[item] });
+        });
       }
     }
   }
@@ -149,7 +160,7 @@ const AddRecipe = (props) => {
   return (
     <div className="root">
       <Header />
-      <PageTitle title={(id ? 'Editar' : 'Criar') + ' Receita'} backLink={true} openModal={hasPermission ? true : false} />
+      <PageTitle title={(id ? 'Editar' : 'Criar') + ' Receita'} backLink={true} openModal={((successMessage === '' && hasPermission) ? true : false)} />
       <div className="content">
         <div className={'loading-area' + (loading ? ' active' : '')}>
           <img src={LoadingGif} />
@@ -157,31 +168,36 @@ const AddRecipe = (props) => {
         </div>
         <div className={'adicionar-receita ' + (!(loading) ? 'active' : '')}>
           <div className="container">
-            <div className={'message-result-area error ' + (!(hasPermission) ? 'active' : '')}>
-              <span>{errorMessage}</span>
-            </div>
+
+            {errorMessage.key === 'no-permission' ? <ErrorMessage message={errorMessage.message} /> : ''}
+
             <div className={'form-area ' + (hasPermission ? 'active' : '')}>
               <form onSubmit={createOrEditRecipe}>
                 <div className="input-area">
                   <input type="text" name="title" id="title" placeholder="Nome da Receita" onChange={(event) => setRecipe({ ...recipe, title: event.target.value })} value={recipe.title} required />
+
+                  {errorMessage.key === 'title' ? <ErrorMessage message={errorMessage.message} /> : ''}
                 </div>
                 <div className="input-area">
                   <select name="category" id="category" onChange={(event) => setRecipe({ ...recipe, category: { id: event.target.value } })} value={recipe.category.id} required>
                     <option value={0}>Escolha a categoria da receita</option>
                     {categories}
                   </select>
+
+                  {errorMessage.key === 'category' ? <ErrorMessage message={errorMessage.message} /> : ''}
+
                 </div>
                 <div className="input-area">
                   <label htmlFor="description">Descrição</label>
                   <textarea name="description" id="description" placeholder="Descrição da Receita" onChange={(event) => setRecipe({ ...recipe, description: event.target.value })} value={recipe.description} required></textarea>
+                  
+                  {errorMessage.key === 'description' ? <ErrorMessage message={errorMessage.message} /> : ''}
                 </div>
                 <div className="submit-area">
                   <button className="btn-submit" type="submit">{id ? 'Editar' : 'Criar'} Receita</button>
                 </div>
 
-                <div className={'message-result-area error ' + ((errorMessage !== '') ? ' active' : '')}>
-                  <span>{errorMessage}</span>
-                </div>
+                {errorMessage.key === 'all-fields-required' ? <ErrorMessage message={errorMessage.message} /> : ''}
 
                 <div className={'message-result-area' + ((isRecipeCreatedOrEdited) ? ' active' : '')}>
                   <span>{successMessage}</span>

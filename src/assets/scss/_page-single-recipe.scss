@@ -1,15 +1,15 @@
 .single-recipe {
   margin: 40px 0;
-  display: none;
-  &.active {
-    display: block;
-  }
   .container {
     display: flex;
     justify-content: center;
     .card-single-recipe {
+      display: none;
       background-color: #fff;
       width: 75%;
+      &.active {
+        display: block;
+      }
       .img-area {
         position: relative;
         .recipe-img {
