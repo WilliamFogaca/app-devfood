@@ -6,6 +6,7 @@ import { Route, Redirect } from 'react-router-dom';
 /* Components */
 import PageTitle from '../templates/PageTitle';
 import Header from '../templates/Header';
+import ErrorMessage from '../templates/ErrorMessage';
 
 /* Redux Actions */
 import { LoginUser } from '../actions/UserActions';
@@ -20,27 +21,31 @@ const Login = (props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState({});
 
-  const authenticate = (event) => {
+  const authenticate = async (event) => {
     event.preventDefault();
+    setErrorMessage({});
     setLoading(true);
     try {
-      post(
+      const response = await post(
         'authentication/',
         {
           username: username,
           password: password,
         }
-      ).then((response) => {
-        props.LoginUser(response.data.id, response.data.name, response.data.image, response.data.email, response.data.token);
-        setLoading(false);
-      });
+      );
+
+      props.LoginUser(response.data.id, response.data.name, response.data.image, response.data.email, response.data.token);
+      setLoading(false);
+
     } catch (error) {
       const { response } = error;
-      const { request, ...errorObject } = response;
-      const containerError = document.querySelector('[data-error-message]');
-      containerError.classList.add('error', 'active');
-      containerError.innerHTML = `<span>${JSON.parse(response.request.response).non_field_errors[0]}</span>`;
+      const responseErrors = JSON.parse(response.request.response);
+      Object.keys(responseErrors).forEach(function (item) {
+        setErrorMessage({ key: item, message: responseErrors[item] });
+      });
+      setLoading(false);
     }
   }
 
@@ -68,7 +73,8 @@ const Login = (props) => {
                 <img src={LoadingGif} />
                 <span>Carregando...</span>
               </div>
-              <div className="message-result-area" data-error-message></div>
+
+              {errorMessage.key ? <ErrorMessage message={errorMessage.message} /> : ''}
             </form>
           </div>
         </div>
