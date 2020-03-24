@@ -149,7 +149,7 @@ const AddRecipe = (props) => {
   return (
     <div className="root">
       <Header />
-      <PageTitle title={(id ? 'Editar' : 'Criar') + ' Receita'} backLink={true} openModal={true} />
+      <PageTitle title={(id ? 'Editar' : 'Criar') + ' Receita'} backLink={true} openModal={hasPermission ? true : false} />
       <div className="content">
         <div className={'loading-area' + (loading ? ' active' : '')}>
           <img src={LoadingGif} />
@@ -163,17 +163,17 @@ const AddRecipe = (props) => {
             <div className={'form-area ' + (hasPermission ? 'active' : '')}>
               <form onSubmit={createOrEditRecipe}>
                 <div className="input-area">
-                  <input type="text" name="title" id="title" placeholder="Nome da Receita" onChange={() => setRecipe({ ...recipe, title: event.target.value })} value={recipe.title} required />
+                  <input type="text" name="title" id="title" placeholder="Nome da Receita" onChange={(event) => setRecipe({ ...recipe, title: event.target.value })} value={recipe.title} required />
                 </div>
                 <div className="input-area">
-                  <select name="category" id="category" onChange={() => setRecipe({ ...recipe, category: { id: event.target.value } })} value={recipe.category.id} required>
+                  <select name="category" id="category" onChange={(event) => setRecipe({ ...recipe, category: { id: event.target.value } })} value={recipe.category.id} required>
                     <option value={0}>Escolha a categoria da receita</option>
                     {categories}
                   </select>
                 </div>
                 <div className="input-area">
                   <label htmlFor="description">Descrição</label>
-                  <textarea name="description" id="description" placeholder="Descrição da Receita" onChange={() => setRecipe({ ...recipe, description: event.target.value })} value={recipe.description} required></textarea>
+                  <textarea name="description" id="description" placeholder="Descrição da Receita" onChange={(event) => setRecipe({ ...recipe, description: event.target.value })} value={recipe.description} required></textarea>
                 </div>
                 <div className="submit-area">
                   <button className="btn-submit" type="submit">{id ? 'Editar' : 'Criar'} Receita</button>

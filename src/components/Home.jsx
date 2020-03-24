@@ -16,8 +16,8 @@ import LoadingGif from '../assets/img/loading.gif';
 
 
 const Home = (props) => {
-
-  const [Recipes, setRecipes] = useState([]);
+  const [offset, setOffset] = useState(6);
+  const [AllRecipes, setAllRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -31,20 +31,20 @@ const Home = (props) => {
         'api/v1/recipe',
         props.userData.token
       );
-      setRecipes(
-        response.data.map((recipe) => (
-          <li key={recipe.id}>
-            <CardRecipe recipeId={recipe.id} categoryImg={recipe.category.image} categoryName={recipe.category.name} title={recipe.title} description={recipe.description} />
-          </li>
-        ))
+      setAllRecipes(
+        response.data
       );
       setLoading(false);
+
     } catch (error) {
       console.log(error);
     }
   }
 
-  
+  const loadMorerecipes = (event) => {
+    event.preventDefault();
+    setOffset(offset + 6);
+  }
 
   return (
     <div className="root">
@@ -57,9 +57,20 @@ const Home = (props) => {
         </div>
         <div className="home">
           <div className="container">
-            <ul className="receitas-list">
-              {Recipes}
+            <ul className="receitas-list" data-recipe-list>
+              {AllRecipes.map((recipe, index) => {
+                if (index < offset) {
+                  return (
+                    <li key={recipe.id}>
+                      <CardRecipe recipeId={recipe.id} categoryImg={recipe.category.image} categoryName={recipe.category.name} title={recipe.title} description={recipe.description} />
+                    </li>
+                  );
+                }
+              })}
             </ul>
+            <div className={'btn-load-more ' + ((offset < AllRecipes.length) ? 'active' : '')}>
+              <a onClick={loadMorerecipes}>Mostrar mais</a>
+            </div>
           </div>
         </div>
       </div>

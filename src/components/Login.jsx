@@ -55,11 +55,11 @@ const Login = (props) => {
             <form onSubmit={authenticate}>
               <div className="input-area">
                 <label htmlFor="email">E-mail</label>
-                <input type="email" name="email" id="email" placeholder="exemplo@exemplo.com" onChange={() => setUsername(event.target.value)} required />
+                <input type="email" name="email" id="email" placeholder="exemplo@exemplo.com" onChange={(event) => setUsername(event.target.value)} required />
               </div>
               <div className="input-area">
                 <label htmlFor="senha">Senha</label>
-                <input type="password" name="senha" id="senha" placeholder="*************" onChange={() => setPassword(event.target.value)} required />
+                <input type="password" name="senha" id="senha" placeholder="*************" onChange={(event) => setPassword(event.target.value)} required />
               </div>
               <div className="submit-area">
                 <button className="btn-submit" type="submit">Entrar</button>

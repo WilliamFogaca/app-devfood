@@ -4,6 +4,10 @@ body {
   background-color: #ededed;
 }
 
+.content {
+  margin: 40px 0;
+}
+
 /* Título cabeçalho das páginas */
 .page-title {
   background-color: #fff;
@@ -280,6 +284,33 @@ body {
       img {
         height: auto;
       }
+    }
+  }
+}
+
+.btn-load-more {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  &.active {
+    display: flex;
+  }
+  a {
+    cursor: pointer;
+    background-color: $general-orange;
+    color: #fff;
+    font-size: 20px;
+
+    width: 150px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .3s ease-in-out;
+    &:hover {
+      background-color: $general-orange-hover;
+      color: #fff;
     }
   }
 }

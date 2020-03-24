@@ -16,7 +16,10 @@ import { get } from '../service/API';
 import LoadingGif from '../assets/img/loading.gif';
 
 const MyRecipes = (props) => {
-  const [MyRecipes, setMyRecipes] = useState([]);
+  const initialOffset = 5;
+
+  const [AllMyRecipes, setAllMyRecipes] = useState([]);
+  const [offset, setOffset] = useState(initialOffset);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -30,17 +33,16 @@ const MyRecipes = (props) => {
         'api/v1/recipe?user=' + props.userData.id,
         props.userData.token
       );
-      setMyRecipes(
-        response.data.map((recipe) => (
-          <li key={recipe.id}>
-            <CardRecipe recipeId={recipe.id} categoryImg={recipe.category.image} categoryName={recipe.category.name} title={recipe.title} description={recipe.description} />
-          </li>
-        ))
-      );
+      setAllMyRecipes(response.data);
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
+  }
+
+  const loadMorerecipes = (event) => {
+    event.preventDefault();
+    setOffset(offset + initialOffset);
   }
 
 
@@ -62,7 +64,15 @@ const MyRecipes = (props) => {
             </div>
 
             <ul className="receitas-list">
-              {MyRecipes}
+              {AllMyRecipes.map((recipe, index) => {
+                if (index < offset) {
+                  return (
+                    <li key={recipe.id}>
+                      <CardRecipe recipeId={recipe.id} categoryImg={recipe.category.image} categoryName={recipe.category.name} title={recipe.title} description={recipe.description} />
+                    </li>
+                  );
+                }
+              })}
               <li>
                 <Link to="/adicionar-receita">
                   <div className="card-receita card-add-receita">
@@ -72,6 +82,10 @@ const MyRecipes = (props) => {
                 </Link>
               </li>
             </ul>
+
+            <div className={'btn-load-more ' + ((offset < AllMyRecipes.length) ? 'active' : '')}>
+              <a onClick={loadMorerecipes}>Mostrar mais</a>
+            </div>
           </div>
         </div>
       </div>

@@ -5,7 +5,7 @@ import { persistor, store } from './store';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 
 /* Routes */
-import Routes from './routes/routes';
+import Routes from './routes/Routes';
 
 /* Styles */
 import './assets/scss/index.scss';
