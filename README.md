@@ -17,14 +17,14 @@ Clonar projeto para sua máquina
 Entre na pasta do repositório e instale as dependências
 * $ cd app-devfood && npm/yarn install
 
-##Scripts:
-Comando do ambiente de desenvolvimento
-* $ npm/yarn run dev
+### Scripts:
+  Comando do ambiente de desenvolvimento
+  * $ npm/yarn run dev
 
-Comando para gerar a build do ambiente de produção
-* $ npm/yarn run build
+  Comando para gerar a build do ambiente de produção
+  * $ npm/yarn run build
 
-##Ferramentas utilizadas no desenvolvimento
+## Ferramentas utilizadas no desenvolvimento
 * React Redux
 * Redux Persist
 * Axios
