@@ -10,6 +10,7 @@ Desafio Devari Tecnologia
 ## Como usar
 Requisitos
 * É preciso ter o Node Package Manager (NPM) instalado em sua máquina
+* Yarn instalado em sua máquina (Opcional)
 
 Clonar projeto para sua máquina
 * $ git clone https://github.com/WilliamFogaca/todo-app-react.git
