@@ -161,7 +161,7 @@ body {
   flex-wrap: wrap;
   margin: 40px 0 20px 0;
   li {
-    flex-basis: 33.33%;
+    width: 33.33%;
     padding: 0 30px 50px 30px;
     @include media-breakpoint-up(lg) {
       &:nth-child(3n + 1) {
@@ -175,7 +175,7 @@ body {
       }
     }
     @include media-breakpoint-only(md) {
-      flex-basis: 50%;
+      width: 50%;
       &:nth-child(2n + 1) {
         padding-left: 0;
       }
@@ -184,7 +184,7 @@ body {
       }
     }
     @include media-breakpoint-down(sm) {
-      flex-basis: 100%;
+      width: 100%;
       padding: 0 0 50px 0;
     }
   }
