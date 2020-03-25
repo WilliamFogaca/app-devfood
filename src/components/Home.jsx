@@ -5,17 +5,12 @@ import { connect } from 'react-redux';
 import PageTitle from '../templates/PageTitle';
 import Header from '../templates/Header';
 import CardRecipe from '../templates/CardRecipe';
-
-import usePagination from '../templates/Pagination';
+import Loading from '../templates/Loading';
 
 /* Service */
 import { get } from '../service/API';
 
-/* IMGs */
-import LoadingGif from '../assets/img/loading.gif';
-
-
-const Home = (props) => {
+const Home = props => {
   const [offset, setOffset] = useState(6);
   const [AllRecipes, setAllRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -31,9 +26,7 @@ const Home = (props) => {
         'api/v1/recipe',
         props.userData.token
       );
-      setAllRecipes(
-        response.data
-      );
+      setAllRecipes(response.data);
       setLoading(false);
 
     } catch (error) {
@@ -51,10 +44,9 @@ const Home = (props) => {
       <Header />
       <PageTitle title={'Receitas'} />
       <div className="content" id="content">
-        <div className={'loading-area' + (loading ? ' active' : '')}>
-          <img src={LoadingGif} />
-          <span>Carregando...</span>
-        </div>
+
+        {loading ? <Loading /> : ''}
+
         <div className="home">
           <div className="container">
             <ul className="receitas-list" data-recipe-list>
@@ -68,9 +60,11 @@ const Home = (props) => {
                 }
               })}
             </ul>
-            <div className={'btn-load-more ' + ((offset < AllRecipes.length) ? 'active' : '')}>
-              <a onClick={loadMorerecipes}>Mostrar mais</a>
-            </div>
+            {offset < AllRecipes.length ?
+              <div className="btn-load-more">
+                <a onClick={loadMorerecipes}>Mostrar mais</a>
+              </div>
+              : ''}
           </div>
         </div>
       </div>

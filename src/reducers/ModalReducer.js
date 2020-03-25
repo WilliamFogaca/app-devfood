@@ -5,8 +5,7 @@ const INITIAL_STATE_MODAL = {
     text: '',
     isBackLink: false
   },
-  recipeId: 0,
-  history: {}
+  recipeId: 0
 }
 
 export default function ModalReducer(state = INITIAL_STATE_MODAL, action) {
@@ -20,8 +19,7 @@ export default function ModalReducer(state = INITIAL_STATE_MODAL, action) {
           text: action.payload.text,
           isBackLink: action.payload.isBackLink,
         },
-        recipeId: action.payload.recipeId,
-        history: action.payload.history
+        recipeId: action.payload.recipeId
       }
     case 'HIDE_MODAL':
       return { 
@@ -32,8 +30,7 @@ export default function ModalReducer(state = INITIAL_STATE_MODAL, action) {
           text: '',
           isBackLink: false
         },
-        recipeId: 0,
-        history: {}
+        recipeId: 0
       }
     default:
       return state

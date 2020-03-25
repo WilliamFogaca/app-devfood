@@ -5,7 +5,10 @@ import { Link } from 'react-router-dom';
 import PageTitle from '../templates/PageTitle';
 import Header from '../templates/Header';
 
-export default function Component404() {
+/* Routes URLs */
+import { homeRoute } from '../routes/Routes';
+
+export default () => {
   return (
     <div className="root">
       <Header />
@@ -14,7 +17,7 @@ export default function Component404() {
         <div className="page404">
           <div className="container">
             <h3 className="title">Página não encontrada</h3>
-            <Link to="/" className="link-back">Página inicial</Link>
+            <Link to={homeRoute} className="link-back">Página inicial</Link>
           </div>
         </div>
       </div>

@@ -6,14 +6,12 @@ import { useParams } from "react-router-dom";
 import PageTitle from '../templates/PageTitle';
 import Header from '../templates/Header';
 import ErrorMessage from '../templates/ErrorMessage';
+import Loading from '../templates/Loading';
 
 /* Service */
 import { get } from '../service/API';
 
-/* IMGs */
-import LoadingGif from '../assets/img/loading.gif';
-
-const SingleRecipe = (props) => {
+const SingleRecipe = props => {
   let { id } = useParams();
   const [errorMessage, setErrorMessage] = useState({});
   const [recipe, setRecipe] = useState({
@@ -58,26 +56,28 @@ const SingleRecipe = (props) => {
       <Header />
       <PageTitle title={`Receita: ${recipe.title}`} backLink={true} openModal={false} recipeOptions={(recipe.user.id === props.userData.id) ? id : false} />
       <div className="content">
-        <div className={'loading-area' + (loading ? ' active' : '')}>
-          <img src={LoadingGif} />
-          <span>Carregando...</span>
-        </div>
+
+        {loading ? <Loading /> : ''}
 
         <div className="single-recipe">
           <div className="container">
             {errorMessage.key === 'detail' ? <ErrorMessage message={errorMessage.message} /> : ''}
-            <div className={'card-single-recipe' + ((Object.keys(errorMessage).length === 0 && !loading) ? ' active' : '')}>
-              <div className="img-area">
-                <div className="recipe-img" style={{ backgroundImage: `url(${recipe.category.image})` }}></div>
-                <div className="category-area">
-                  <span>{recipe.category.name}</span>
+
+            {(Object.keys(errorMessage).length === 0 && !loading) ?
+              <div className="card-single-recipe">
+                <div className="img-area">
+                  <div className="recipe-img" style={{ backgroundImage: `url(${recipe.category.image})` }}></div>
+                  <div className="category-area">
+                    <span>{recipe.category.name}</span>
+                  </div>
+                </div>
+                <div className="description-area">
+                  <h3 className="title-description-area">Descrição</h3>
+                  <p className="recipe-description">{recipe.description}</p>
                 </div>
               </div>
-              <div className="description-area">
-                <h3 className="title-description-area">Descrição</h3>
-                <p className="recipe-description">{recipe.description}</p>
-              </div>
-            </div>
+              : ''}
+
           </div>
         </div>
       </div>

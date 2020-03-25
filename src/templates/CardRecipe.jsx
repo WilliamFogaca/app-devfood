@@ -2,14 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { generatePath } from "react-router";
 
+/* Helpers */
 import { trimWords } from '../helpers';
 
+/* Routes URLs */
+import { singleRecipeRoute } from '../routes/Routes';
+
 const CardRecipe = (props) => {
-  const recipeUrl = generatePath("/receita/:id", {
-    id: props.recipeId,
-  });
   return (
-    <Link to={recipeUrl} title={props.title}>
+    <Link to={generatePath(singleRecipeRoute, { id: props.recipeId })} title={props.title}>
       <div className="card-receita">
         <div className="img-area">
           <img src={props.categoryImg} alt="" />

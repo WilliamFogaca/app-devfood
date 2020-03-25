@@ -1,7 +1,7 @@
 
-export const ShowModal = (btn, text, isBackLink, recipeId = 0, history = null) => ({
+export const ShowModal = (btn, text, isBackLink, recipeId = 0) => ({
   type: 'SHOW_MODAL',
-  payload: { btn, text, isBackLink, recipeId, history }
+  payload: { btn, text, isBackLink, recipeId }
 });
 
 export const HideModal = () => ({

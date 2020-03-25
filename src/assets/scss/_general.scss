@@ -1,5 +1,3 @@
-/* Estilos de várias páginas */
-
 body {
   background-color: #ededed;
 }
@@ -8,7 +6,7 @@ body {
   margin: 40px 0;
 }
 
-/* Título cabeçalho das páginas */
+/* PageTitle.jsx */
 .page-title {
   background-color: #fff;
   margin: 15px 0;
@@ -93,19 +91,16 @@ body {
   }
 }
 
-/* Mensagens de erro */
+/* Errors messagens */
 .message-result-area {
-  display: none;
   border-radius: 10px;
   margin-top: 10px;
   background-color: $general-green;
+  display: flex;
   justify-content: center;
   align-items: center;
   &.error {
     background-color: $general-red;
-  }
-  &.active {
-    display: flex;
   }
   span {
     display: flex;
@@ -117,13 +112,11 @@ body {
   }
 }
 
+/* Result Link when success */
 .link-result-area {
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
-  &.active {
-    display: flex;
-  }
   .link {
     font-size: 18px;
     background-color: $general-orange;
@@ -138,13 +131,11 @@ body {
   }
 }
 
+/* Loading.jsx */
 .loading-area {
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
-  &.active {
-    display: flex;
-  }
   img {
     width: 75px;
   }
@@ -155,7 +146,7 @@ body {
   }
 }
 
-/* Lista das receitas */
+/* Recipes lists */
 .receitas-list {
   display: flex;
   flex-wrap: wrap;
@@ -190,7 +181,7 @@ body {
   }
 }
 
-/* Cards das Receitas */
+/* Recipes cards */
 .card-receita {
   background-color: #fff;
   border-radius: 15px;
@@ -288,13 +279,11 @@ body {
   }
 }
 
+/* Btn to show more recipes */
 .btn-load-more {
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
-  &.active {
-    display: flex;
-  }
   a {
     cursor: pointer;
     background-color: $general-orange;
@@ -315,6 +304,7 @@ body {
   }
 }
 
+/* Popup.jsx */
 .modal {
   position: fixed;
   z-index: 999;
@@ -325,13 +315,9 @@ body {
   overflow: auto;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
-
-  &.active {
-    display: flex;
-  }
 
   .modal-area {
     background-color: #fefefe;

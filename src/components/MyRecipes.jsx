@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 
 /* Components */
 import PageTitle from '../templates/PageTitle';
 import Header from '../templates/Header';
 import CardRecipe from '../templates/CardRecipe';
+import Loading from '../templates/Loading';
+import ErrorMessage from '../templates/ErrorMessage';
+
+/* Routes URLs */
+import { addRecipeRoute } from '../routes/Routes';
 
 /* Service */
 import { get } from '../service/API';
 
-
-/* IMGs */
-import LoadingGif from '../assets/img/loading.gif';
-
-const MyRecipes = (props) => {
+const MyRecipes = props => {
   const initialOffset = 5;
 
   const [AllMyRecipes, setAllMyRecipes] = useState([]);
@@ -45,7 +45,6 @@ const MyRecipes = (props) => {
     setOffset(offset + initialOffset);
   }
 
-
   return (
     <div className="root">
       <Header />
@@ -54,14 +53,11 @@ const MyRecipes = (props) => {
         <div className="minhas-receitas">
           <div className="container">
 
-            <div className={'message-result-area error ' + (props.location.state ? props.location.state.recipeDeleted ? 'active' : '' : '')} data-message-area>
-              <span>Receita Apagada!</span>
-            </div>
+            {props.location.state ? props.location.state.recipeDeleted ?
+              <ErrorMessage message={'Receita Apagada!'} />
+            : '' : ''}
 
-            <div className={'loading-area' + (loading ? ' active' : '')}>
-              <img src={LoadingGif} />
-              <span>Carregando...</span>
-            </div>
+            {loading ? <Loading /> : ''}
 
             <ul className="receitas-list">
               {AllMyRecipes.map((recipe, index) => {
@@ -74,7 +70,7 @@ const MyRecipes = (props) => {
                 }
               })}
               <li>
-                <Link to="/adicionar-receita">
+                <Link to={addRecipeRoute}>
                   <div className="card-receita card-add-receita">
                     <p className="plus">+</p>
                     <p className="text">Adicionar Receita</p>
@@ -83,9 +79,11 @@ const MyRecipes = (props) => {
               </li>
             </ul>
 
-            <div className={'btn-load-more ' + ((offset < AllMyRecipes.length) ? 'active' : '')}>
-              <a onClick={loadMorerecipes}>Mostrar mais</a>
-            </div>
+            {offset < AllMyRecipes.length ?
+              <div className="btn-load-more">
+                <a onClick={loadMorerecipes}>Mostrar mais</a>
+              </div>
+              : ''}
           </div>
         </div>
       </div>

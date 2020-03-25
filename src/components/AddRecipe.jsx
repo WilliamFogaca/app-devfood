@@ -2,19 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useParams } from "react-router-dom";
+import { generatePath } from "react-router";
 
 /* Components */
 import PageTitle from '../templates/PageTitle';
 import Header from '../templates/Header';
 import ErrorMessage from '../templates/ErrorMessage';
+import Loading from '../templates/Loading';
+
+/* Routes URLs */
+import { singleRecipeRoute } from '../routes/Routes';
 
 /* Service */
 import { post, get, put } from '../service/API';
 
-/* IMGs */
-import LoadingGif from '../assets/img/loading.gif';
-
-const AddRecipe = (props) => {
+const AddRecipe = props => {
 
   /* Editar Receita */
   const { id } = useParams();
@@ -22,11 +24,8 @@ const AddRecipe = (props) => {
   /* States */
   const [hasPermission, setHasPermission] = useState(true);
   const [categories, setCategories] = useState([]);
-  const [isRecipeCreatedOrEdited, setIsRecipeCreatedOrEdited] = useState(false);
   const [recipeCreatedOrEdited, setRecipeCreatedOrEdited] = useState({});
-
   const [errorMessage, setErrorMessage] = useState({});
-
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const recipeInitialState = {
@@ -117,7 +116,7 @@ const AddRecipe = (props) => {
     } else {
       try {
         let responseResult = {};
-        if (id) {
+        if (id) { /* Update Recipe */
           const response = await put(
             `api/v1/recipe/${id}/`,
             {
@@ -130,7 +129,7 @@ const AddRecipe = (props) => {
           responseResult = response.data;
           setSuccessMessage('Receita atualizada com sucesso!');
           setErrorMessage({});
-        } else {
+        } else { /* Create Recipe */
           const response = await post(
             'api/v1/recipe/',
             {
@@ -146,7 +145,6 @@ const AddRecipe = (props) => {
           setErrorMessage({});
         }
         setRecipeCreatedOrEdited(responseResult);
-        setIsRecipeCreatedOrEdited(true);
       } catch (error) {
         const { response } = error;
         const responseErrors = JSON.parse(response.request.response);
@@ -162,56 +160,63 @@ const AddRecipe = (props) => {
       <Header />
       <PageTitle title={(id ? 'Editar' : 'Criar') + ' Receita'} backLink={true} openModal={((successMessage === '' && hasPermission) ? true : false)} />
       <div className="content">
-        <div className={'loading-area' + (loading ? ' active' : '')}>
-          <img src={LoadingGif} />
-          <span>Carregando...</span>
-        </div>
-        <div className={'adicionar-receita ' + (!(loading) ? 'active' : '')}>
-          <div className="container">
 
-            {errorMessage.key === 'no-permission' ? <ErrorMessage message={errorMessage.message} /> : ''}
+        {loading ? <Loading /> : ''}
 
-            <div className={'form-area ' + (hasPermission ? 'active' : '')}>
-              <form onSubmit={createOrEditRecipe}>
-                <div className="input-area">
-                  <input type="text" name="title" id="title" placeholder="Nome da Receita" onChange={(event) => setRecipe({ ...recipe, title: event.target.value })} value={recipe.title} required />
+        {!(loading) ?
+          <div className="adicionar-receita">
+            <div className="container">
+              {errorMessage.key === 'no-permission' ? <ErrorMessage message={errorMessage.message} /> : ''}
 
-                  {errorMessage.key === 'title' ? <ErrorMessage message={errorMessage.message} /> : ''}
+              {hasPermission ?
+                <div className="form-area">
+                  <form onSubmit={createOrEditRecipe}>
+                    <div className="input-area">
+                      <input type="text" name="title" id="title" placeholder="Nome da Receita" onChange={(event) => setRecipe({ ...recipe, title: event.target.value })} value={recipe.title} required />
+
+                      {errorMessage.key === 'title' ? <ErrorMessage message={errorMessage.message} /> : ''}
+                    </div>
+                    <div className="input-area">
+                      <select name="category" id="category" onChange={(event) => setRecipe({ ...recipe, category: { id: event.target.value } })} value={recipe.category.id} required>
+                        <option value={0}>Escolha a categoria da receita</option>
+                        {categories}
+                      </select>
+
+                      {errorMessage.key === 'category' ? <ErrorMessage message={errorMessage.message} /> : ''}
+
+                    </div>
+                    <div className="input-area">
+                      <label htmlFor="description">Descrição</label>
+                      <textarea name="description" id="description" placeholder="Descrição da Receita" onChange={(event) => setRecipe({ ...recipe, description: event.target.value })} value={recipe.description} required></textarea>
+
+                      {errorMessage.key === 'description' ? <ErrorMessage message={errorMessage.message} /> : ''}
+                    </div>
+                    <div className="submit-area">
+                      <button className="btn-submit" type="submit">{id ? 'Editar' : 'Criar'} Receita</button>
+                    </div>
+
+                    {errorMessage.key === 'all-fields-required' ? <ErrorMessage message={errorMessage.message} /> : ''}
+
+                    {Object.keys(recipeCreatedOrEdited).length !== 0 ?
+                      <div className="message-result-area">
+                        <span>{successMessage}</span>
+                      </div>
+                      : ''}
+
+                    {Object.keys(recipeCreatedOrEdited).length !== 0 ?
+                      <div className="link-result-area">
+                        <Link className="link" to={generatePath(singleRecipeRoute, { id: recipeCreatedOrEdited.id })}>Ver Receita</Link>
+                      </div>
+                      : ''}
+                  </form>
                 </div>
-                <div className="input-area">
-                  <select name="category" id="category" onChange={(event) => setRecipe({ ...recipe, category: { id: event.target.value } })} value={recipe.category.id} required>
-                    <option value={0}>Escolha a categoria da receita</option>
-                    {categories}
-                  </select>
-
-                  {errorMessage.key === 'category' ? <ErrorMessage message={errorMessage.message} /> : ''}
-
-                </div>
-                <div className="input-area">
-                  <label htmlFor="description">Descrição</label>
-                  <textarea name="description" id="description" placeholder="Descrição da Receita" onChange={(event) => setRecipe({ ...recipe, description: event.target.value })} value={recipe.description} required></textarea>
-                  
-                  {errorMessage.key === 'description' ? <ErrorMessage message={errorMessage.message} /> : ''}
-                </div>
-                <div className="submit-area">
-                  <button className="btn-submit" type="submit">{id ? 'Editar' : 'Criar'} Receita</button>
-                </div>
-
-                {errorMessage.key === 'all-fields-required' ? <ErrorMessage message={errorMessage.message} /> : ''}
-
-                <div className={'message-result-area' + ((isRecipeCreatedOrEdited) ? ' active' : '')}>
-                  <span>{successMessage}</span>
-                </div>
-
-                <div className={'link-result-area' + ((isRecipeCreatedOrEdited) ? ' active' : '')}>
-                  <Link className="link" to={'/receita/' + recipeCreatedOrEdited.id}>Ver Receita</Link>
-                </div>
-              </form>
+                : ''}
             </div>
           </div>
-        </div>
+          : ''}
+
       </div>
-    </div>
+    </div >
   );
 };
 

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 /* Redux Actions */
 import { LogoutUser } from '../actions/UserActions';
@@ -11,6 +11,7 @@ import { HideModal } from '../actions/ModalActions';
 import { deleteR } from '../service/API';
 
 const Popup = (props) => {
+  let history = useHistory();
 
   const outsiteClick = (event) => {
     if (event.target.classList.contains('modal')) {
@@ -19,13 +20,12 @@ const Popup = (props) => {
   }
 
   const deleteRecipe = () => {
-    
     try {
       deleteR(
         'https://receitas.devari.com.br/api/v1/recipe/' + props.modal.recipeId,
         props.userData.token
       ).then((response) => {
-        props.modal.history.push({
+        history.push({
           pathname: '/minhas-receitas',
           state: { recipeDeleted: true }
         });
@@ -38,9 +38,8 @@ const Popup = (props) => {
   const actionClick = () => {
     //console.log(props);
     if (props.modal.modalText.isBackLink) {
-      /* MARCADO PARA AJUSTAR */
-      props.modal.history.go(-2);
-      /* FIM MARCADO PARA AJUSTAR */
+      /* Go back twice */
+      history.go(-2);
       props.HideModal();
     } else {
       if (props.modal.modalText.btn === 'Apagar') {
@@ -54,7 +53,7 @@ const Popup = (props) => {
   }
 
   return (
-    <div id="modal" className={'modal ' + (props.modal.showModal ? 'active' : '')} onClick={outsiteClick}>
+    <div id="modal" className="modal" onClick={outsiteClick}>
       <div className="modal-area">
         <div className="modal-area-content">
           <span className="close-btn" onClick={props.HideModal}>X</span>

@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Route, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 /* Components */
 import PageTitle from '../templates/PageTitle';
 import Header from '../templates/Header';
 import ErrorMessage from '../templates/ErrorMessage';
+import Loading from '../templates/Loading';
 
 /* Redux Actions */
 import { LoginUser } from '../actions/UserActions';
 
+/* Routes URLs */
+import { homeRoute } from '../routes/Routes';
+
 /* Service */
 import { post } from '../service/API';
 
-/* IMGs */
-import LoadingGif from '../assets/img/loading.gif';
-
-const Login = (props) => {
+const Login = props => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -35,10 +36,8 @@ const Login = (props) => {
           password: password,
         }
       );
-
-      props.LoginUser(response.data.id, response.data.name, response.data.image, response.data.email, response.data.token);
       setLoading(false);
-
+      props.LoginUser(response.data.id, response.data.name, response.data.image, response.data.email, response.data.token);
     } catch (error) {
       const { response } = error;
       const responseErrors = JSON.parse(response.request.response);
@@ -51,7 +50,7 @@ const Login = (props) => {
 
   return (
     <div className="root">
-      {props.userData.id !== 0 ? <Route render={() => (<Redirect to="/" />)} /> : ''}
+      {props.userData.id !== 0 ? <Redirect to={homeRoute} /> : ''}
       <Header />
       <PageTitle title={'Entre em sua conta'} />
       <div className="content">
@@ -69,10 +68,8 @@ const Login = (props) => {
               <div className="submit-area">
                 <button className="btn-submit" type="submit">Entrar</button>
               </div>
-              <div className={'loading-area' + (loading ? ' active' : '')}>
-                <img src={LoadingGif} />
-                <span>Carregando...</span>
-              </div>
+
+              {loading ? <Loading /> : ''}
 
               {errorMessage.key ? <ErrorMessage message={errorMessage.message} /> : ''}
             </form>

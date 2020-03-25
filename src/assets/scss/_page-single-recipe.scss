@@ -4,12 +4,8 @@
     display: flex;
     justify-content: center;
     .card-single-recipe {
-      display: none;
       background-color: #fff;
       width: 75%;
-      &.active {
-        display: block;
-      }
       .img-area {
         position: relative;
         .recipe-img {
