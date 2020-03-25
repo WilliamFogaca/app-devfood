@@ -41,6 +41,6 @@ const mapStateToProps = store => ({
   modal: store.modal
 });
 
-const mapDispatchProps = dispatch => bindActionCreators({ ShowModal }, dispatch)
+const mapDispatchProps = dispatch => bindActionCreators({ ShowModal }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchProps)(PageTitle);

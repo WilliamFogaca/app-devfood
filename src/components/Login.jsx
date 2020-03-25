@@ -84,6 +84,6 @@ const mapStateToProps = store => ({
   userData: store.userData.data
 });
 
-const mapDispatchProps = dispatch => bindActionCreators({ LoginUser }, dispatch)
+const mapDispatchProps = dispatch => bindActionCreators({ LoginUser }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchProps)(Login);
