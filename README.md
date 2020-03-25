@@ -7,6 +7,9 @@ Aplicação para ter uma visão geral de suas receitas
 ## Objetivo
 Desafio Devari Tecnologia
 
+## Link da aplicação
+https://app-devfood.herokuapp.com/
+
 ## Como usar
 Requisitos
 * É preciso ter o Node Package Manager (NPM) instalado em sua máquina
