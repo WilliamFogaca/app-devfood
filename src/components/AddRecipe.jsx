@@ -46,66 +46,64 @@ const AddRecipe = props => {
   /* UserEffects to get all categories after rendering */
   useEffect(() => {
     if (hasPermission) {
+      const getAllCategories = async () => {
+        setLoading(true);
+        try {
+          const response = await get(
+            'api/v1/category',
+            props.userData.token
+          );
+          setCategories(
+            response.data.map((category) => (
+              <option key={category.id} value={category.id}>{category.name}</option>
+            ))
+          );
+          setLoading(false);
+        } catch (error) {
+          const { response } = error;
+          const responseErrors = JSON.parse(response.request.response);
+          Object.keys(responseErrors).forEach(function (item) {
+            setErrorMessage({ key: item, message: responseErrors[item] });
+          });
+        }
+      }
       getAllCategories();
     }
-  }, []);
+  }, [props]);
 
   /* UserEffects to get recipe after rendering if has id */
   useEffect(() => {
     if (id) {
+      /* Get recipe for update */
+      const getSingleRecipe = async () => {
+        setLoading(true);
+        try {
+          const response = await get(
+            `api/v1/recipe/${id}`,
+            props.userData.token
+          );
+          if (response.data.user.id !== props.userData.id) {
+            setHasPermission(false);
+            setErrorMessage({ key: 'no-permission', message: 'Você não possui permissão para editar essa receita!' });
+            return;
+          }
+          setRecipe(response.data);
+          setLoading(false);
+        } catch (error) {
+          const { response } = error;
+          const responseErrors = JSON.parse(response.request.response);
+          Object.keys(responseErrors).forEach(function (item) {
+            setErrorMessage({ key: item, message: responseErrors[item] });
+          });
+        }
+      }
       getSingleRecipe();
     } else {
       setRecipe(recipeInitialState);
       setHasPermission(true);
       setErrorMessage({});
     }
-  }, [id]);
-
-  const getAllCategories = async () => {
-    setLoading(true);
-    try {
-      const response = await get(
-        'api/v1/category',
-        props.userData.token
-      );
-      setCategories(
-        response.data.map((category) => (
-          <option key={category.id} value={category.id}>{category.name}</option>
-        ))
-      );
-      setLoading(false);
-    } catch (error) {
-      const { response } = error;
-      const responseErrors = JSON.parse(response.request.response);
-      Object.keys(responseErrors).forEach(function (item) {
-        setErrorMessage({ key: item, message: responseErrors[item] });
-      });
-    }
-  }
-
-  /* Get recipe for update */
-  const getSingleRecipe = async () => {
-    setLoading(true);
-    try {
-      const response = await get(
-        `api/v1/recipe/${id}`,
-        props.userData.token
-      );
-      if (response.data.user.id !== props.userData.id) {
-        setHasPermission(false);
-        setErrorMessage({ key: 'no-permission', message: 'Você não possui permissão para editar essa receita!' });
-        return;
-      }
-      setRecipe(response.data);
-      setLoading(false);
-    } catch (error) {
-      const { response } = error;
-      const responseErrors = JSON.parse(response.request.response);
-      Object.keys(responseErrors).forEach(function (item) {
-        setErrorMessage({ key: item, message: responseErrors[item] });
-      });
-    }
-  }
+  }, [props, id]);
 
   /* On Submit form create or update recipe */
   const createOrEditRecipe = async (event) => {

@@ -10,20 +10,20 @@ Desafio Devari Tecnologia
 ## Como usar
 Requisitos
 * É preciso ter o Node Package Manager (NPM) instalado em sua máquina
-* Yarn instalado em sua máquina (Opcional)
+* Yarn instalado em sua máquina
 
 Clonar projeto para sua máquina
 * $ git clone https://github.com/WilliamFogaca/app-devfood.git
 
 Entre na pasta do repositório e instale as dependências
-* $ cd app-devfood && npm/yarn install
+* $ cd app-devfood && yarn install
 
 ### Scripts:
   Comando do ambiente de desenvolvimento
-  * $ npm/yarn run dev
+  * $ yarn start
 
   Comando para gerar a build do ambiente de produção
-  * $ npm/yarn run build
+  * $ yarn build
 
 ## Ferramentas utilizadas no desenvolvimento
 * React Redux

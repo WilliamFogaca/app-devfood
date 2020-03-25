@@ -1,5 +1,4 @@
 import axios from 'axios';
-import regeneratorRuntime from 'regenerator-runtime';
 
 const API = axios.create({
   baseURL: 'https://receitas.devari.com.br/'

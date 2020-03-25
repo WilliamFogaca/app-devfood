@@ -39,7 +39,7 @@ const Header = (props) => {
                 <span className="user-name">{props.userData.name}</span>
                 <img src={props.userData.image} className="user-img" alt="Imagem do usuário" />
                 <span className="separator"></span>
-                <a onClick={() => props.ShowModal('Sair', 'Tem certeza que deseja sair?', false)} className="logout">Sair</a>
+                <button onClick={() => props.ShowModal('Sair', 'Tem certeza que deseja sair?', false)} className="logout">Sair</button>
               </div>
             </>
             : ''}

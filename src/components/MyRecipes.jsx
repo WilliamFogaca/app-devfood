@@ -24,21 +24,22 @@ const MyRecipes = props => {
 
   useEffect(() => {
     setLoading(true);
-    getMyRecipes();
-  }, []);
-
-  const getMyRecipes = async () => {
-    try {
-      const response = await get(
-        'api/v1/recipe?user=' + props.userData.id,
-        props.userData.token
-      );
-      setAllMyRecipes(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
+    const getMyRecipes = async () => {
+      try {
+        const response = await get(
+          'api/v1/recipe?user=' + props.userData.id,
+          props.userData.token
+        );
+        setAllMyRecipes(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
+    getMyRecipes();
+  }, [props]);
+
+
 
   const loadMorerecipes = (event) => {
     event.preventDefault();
@@ -55,19 +56,17 @@ const MyRecipes = props => {
 
             {props.location.state ? props.location.state.recipeDeleted ?
               <ErrorMessage message={'Receita Apagada!'} />
-            : '' : ''}
+              : '' : ''}
 
             {loading ? <Loading /> : ''}
 
             <ul className="receitas-list">
               {AllMyRecipes.map((recipe, index) => {
-                if (index < offset) {
-                  return (
-                    <li key={recipe.id}>
-                      <CardRecipe recipeId={recipe.id} categoryImg={recipe.category.image} categoryName={recipe.category.name} title={recipe.title} description={recipe.description} />
-                    </li>
-                  );
-                }
+                return (index < offset) ?
+                  <li key={recipe.id}>
+                    <CardRecipe recipeId={recipe.id} categoryImg={recipe.category.image} categoryName={recipe.category.name} title={recipe.title} description={recipe.description} />
+                  </li>
+                  : '';
               })}
               <li>
                 <Link to={addRecipeRoute}>
@@ -81,7 +80,7 @@ const MyRecipes = props => {
 
             {offset < AllMyRecipes.length ?
               <div className="btn-load-more">
-                <a onClick={loadMorerecipes}>Mostrar mais</a>
+                <button onClick={loadMorerecipes}>Mostrar mais</button>
               </div>
               : ''}
           </div>

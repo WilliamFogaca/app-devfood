@@ -29,27 +29,28 @@ const SingleRecipe = props => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getRecipe();
-  }, []);
-
-  const getRecipe = async () => {
-    setLoading(true);
-    try {
-      const response = await get(
-        'https://receitas.devari.com.br/api/v1/recipe/' + id,
-        props.userData.token,
-      );
-      setRecipe(response.data);
-      setLoading(false);
-    } catch (error) {
-      const { response } = error;
-      const responseErrors = JSON.parse(response.request.response);
-      Object.keys(responseErrors).forEach(function (item) {
-        setErrorMessage({ key: item, message: responseErrors[item] });
-      });
-      setLoading(false);
+    const getRecipe = async () => {
+      setLoading(true);
+      try {
+        const response = await get(
+          'https://receitas.devari.com.br/api/v1/recipe/' + id,
+          props.userData.token,
+        );
+        setRecipe(response.data);
+        setLoading(false);
+      } catch (error) {
+        const { response } = error;
+        const responseErrors = JSON.parse(response.request.response);
+        Object.keys(responseErrors).forEach(function (item) {
+          setErrorMessage({ key: item, message: responseErrors[item] });
+        });
+        setLoading(false);
+      }
     }
-  }
+    getRecipe();
+  }, [props, id]);
+
+
 
   return (
     <div className="root">

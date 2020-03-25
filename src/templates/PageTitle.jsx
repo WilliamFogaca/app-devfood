@@ -19,7 +19,7 @@ const PageTitle = (props) => {
 
         {props.backLink ?
           <div className="back-link">
-            <a href="#" onClick={() => props.openModal ? props.ShowModal('Descartar', 'Tem certeza que deseja Descartar?', true) : history.goBack()}>&#8592; Voltar</a>
+            <button href="#" onClick={() => props.openModal ? props.ShowModal('Descartar', 'Tem certeza que deseja Descartar?', true) : history.goBack()}>&#8592; Voltar</button>
           </div>
           : ''}
 
@@ -28,7 +28,7 @@ const PageTitle = (props) => {
         {props.recipeOptions ?
           <div className="recipe-options">
             <Link className="option-link edit-option" to={generatePath(editRecipeRoute, { id: props.recipeOptions })}>Editar</Link>
-            <a className="option-link delete-option" onClick={() => props.ShowModal('Apagar', 'Tem certeza que deseja Apagar?', false, props.recipeOptions)}>Apagar</a>
+            <button className="option-link delete-option" onClick={() => props.ShowModal('Apagar', 'Tem certeza que deseja Apagar?', false, props.recipeOptions)}>Apagar</button>
           </div>
           : ''}
 

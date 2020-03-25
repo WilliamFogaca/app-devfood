@@ -61,8 +61,8 @@ const Popup = (props) => {
             <p>{props.modal.modalText.text}</p>
           </div>
           <div className="options-area">
-            <a onClick={props.HideModal} className="cancelar-btn">Cancelar</a>
-            <a onClick={actionClick} className={'action-btn ' + ((props.modal.modalText.btn === 'Apagar') ? 'action-delete' : '')}>{props.modal.modalText.btn}</a>
+            <button onClick={props.HideModal} className="cancelar-btn">Cancelar</button>
+            <button onClick={actionClick} className={'action-btn ' + ((props.modal.modalText.btn === 'Apagar') ? 'action-delete' : '')}>{props.modal.modalText.btn}</button>
           </div>
         </div>
       </div>

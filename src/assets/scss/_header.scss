@@ -45,6 +45,11 @@
         }
         .logout {
           cursor: pointer;
+          background-color: transparent;
+          border: none;
+          color: #fff;
+          font-weight: 700;
+          outline: none;
         }
       }
     }

@@ -17,22 +17,22 @@ const Home = props => {
 
   useEffect(() => {
     setLoading(true);
-    getRecipes();
-  }, []);
+    const getRecipes = async () => {
+      try {
+        const response = await get(
+          'api/v1/recipe',
+          props.userData.token
+        );
+        setAllRecipes(response.data);
+        setLoading(false);
 
-  const getRecipes = async () => {
-    try {
-      const response = await get(
-        'api/v1/recipe',
-        props.userData.token
-      );
-      setAllRecipes(response.data);
-      setLoading(false);
-
-    } catch (error) {
-      console.log(error);
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
+    getRecipes();
+  }, [props]);
+
 
   const loadMorerecipes = (event) => {
     event.preventDefault();
@@ -51,18 +51,16 @@ const Home = props => {
           <div className="container">
             <ul className="receitas-list" data-recipe-list>
               {AllRecipes.map((recipe, index) => {
-                if (index < offset) {
-                  return (
-                    <li key={recipe.id}>
-                      <CardRecipe recipeId={recipe.id} categoryImg={recipe.category.image} categoryName={recipe.category.name} title={recipe.title} description={recipe.description} />
-                    </li>
-                  );
-                }
+                return (index < offset) ?
+                  <li key={recipe.id}>
+                    <CardRecipe recipeId={recipe.id} categoryImg={recipe.category.image} categoryName={recipe.category.name} title={recipe.title} description={recipe.description} />
+                  </li>
+                : '';
               })}
             </ul>
             {offset < AllRecipes.length ?
               <div className="btn-load-more">
-                <a onClick={loadMorerecipes}>Mostrar mais</a>
+                <button onClick={loadMorerecipes}>Mostrar mais</button>
               </div>
               : ''}
           </div>
